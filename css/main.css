@@ -1,0 +1,453 @@
+/*
+* Everything fullscreen.
+*/
+html, body, #map {
+  font-family: 'Raleway', monospace;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+/*
+* You could style the timeline however you like, but we just make it wider here.
+*/
+.leaflet-left {
+  width: 100%;
+}
+.leaflet-bar{
+  box-shadow: none;
+  position: fixed;
+  bottom: 20px;
+  left: 25vw;
+  z-index: 10;
+}
+#info{
+  color: #eee;
+  background-color: #222;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 25vw;
+  padding: 1em;
+  overflow-y: auto;
+}
+#map{
+  position: fixed;
+  top: 0;
+  left: 25vw;
+  bottom: 0;
+  right: 0;
+}
+#displayed-list {
+  margin-left: -10px;
+  width: 80%;
+}
+
+/* Timeline styles */
+
+.leaflet-control.leaflet-timeline-control {
+  width:80%;
+  background-color: rgba(0,0,0,0);
+  margin-bottom:20px;
+  text-align:center;
+  border: 0px;
+}
+
+.leaflet-control.leaflet-timeline-control input[type=range] {
+  width:60%;
+  background-color: rgba(0,0,0,0);
+  border: 0px;
+}
+
+.leaflet-timeline-control.leaflet-timeline-control .sldr-ctrl-container {
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  top: -60px;
+}
+
+.time-text {
+  position: fixed;
+  font-family: monospace;
+  font-size: 36pt;
+  top: 20px;
+  right: 20px;
+  color: #555;
+}
+
+.time-text::before {
+  content: 'Year: ';
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button {
+width:5%;
+height:20px;
+background-color: rgba(0,0,0,0);
+border: 0px;
+}
+
+.leaflet-control .leaflet-timeline-control .button-container button:after,.leaflet-control.leaflet-timeline-control .button-container button:before {content:"";position:absolute}
+
+.leaflet-control.leaflet-timeline-control .button-container button.play:before {
+border-width:12px 0 12px 16px;
+border-left-color:#fff;
+border-radius: 4px;
+margin-top:7px;
+background:transparent;
+margin-left:-3px
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.pause { display:none }
+
+.leaflet-control.leaflet-timeline-control .button-container button.pause:before {
+width:6px;
+height:25px;
+border-width:0 0px;
+margin-top:7px;
+margin-left:-6px;
+background: #fff;
+border-radius: 4px;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.pause:after {
+width:6px;
+height:25px;
+border-width:0 0px;
+border-radius: 4px;
+margin-top:7px;
+margin-left:6px;
+background: #fff;
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.prev:after,.leaflet-control.leaflet-timeline-control .button-container button.prev:before {
+margin:0px 0 0;
+background:#fff
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.prev:before {
+width:4px;
+height:25px;
+margin-top:7px;
+border-radius: 4px;
+margin-left:-9px
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.prev:after {
+border-width:12px 16px 12px 0;
+border-radius: 4px;
+border-right-color:#fff;
+margin-top:7px;
+margin-left:-5px;
+background:transparent
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.next:after,.leaflet-control.leaflet-timeline-control .button-container button.next:before {
+  margin:-8px 0 0;
+  background:#fff
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.next:before {
+  width:4px;
+  height:25px;
+  border-radius: 4px;
+  margin-top:7px;
+  margin-left:11px
+}
+
+.leaflet-control.leaflet-timeline-control .button-container button.next:after {
+  border-width:12px 0 12px 16px;
+  border-radius: 4px;
+  border-left-color:#fff;
+  margin-top:7px;
+  margin-left:-5px;
+  background:transparent
+}
+
+.leaflet-control.leaflet-timeline-control.playing button.pause { display:inline-block; }
+
+.leaflet-control.leaflet-timeline-control.playing button.play { display:none }
+
+/* Custom range input styles */
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 18px 0;
+  width: 100%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #00aeff;
+  border-radius: 1.3px;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -14px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #00aeff;
+  border-radius: 4px;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #00aeff;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-fill-upper {
+  background: #00aeff;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #00aeff;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #00aeff;
+}
+
+/* Menu styles */
+
+#menu {
+  position: relative;
+  color: #555;
+  font-size: 30pt;
+  font-weight: 600;
+  left: 25vw;
+  margin: 10px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+#menu:hover {
+  color: #00aeff;
+}
+
+/* Overlay Menu */
+
+/* The Overlay (background) */
+.overlay {
+/* Height & width depends on how you want to reveal the overlay (see JS below) */
+height: 100%;
+width: 0%;
+position: fixed; /* Stay in place */
+z-index: 3; /* Sit on top */
+display: flex;
+flex-direction: column;
+justify-content: center;
+left: 0;
+top: 0;
+background-color: rgb(0,0,0); /* Black fallback color */
+background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+overflow-x: hidden; /* Disable horizontal scroll */
+overflow-y: hidden; /* Disable horizontal scroll */
+transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+font-family: 'Raleway', sans-serif;
+left: 10%;
+width: 90%; /* 100% width */
+text-align: right; /* Centered text/links */
+transition: 0.5s;
+}
+
+/* The navigation links inside the overlay */
+.overlay a {
+padding: 8px;
+text-decoration: none;
+outline: none;
+font-size: 36px;
+color: #ccc;
+display: block; /* Display block instead of inline */
+transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+/* When you mouse over the navigation links, change their color */
+.overlay a:hover, .overlay a:focus {
+color: #00aeff;
+}
+
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+position: absolute;
+top: 20px;
+right: 45px;
+font-size: 60px;
+}
+
+/* Sub Menus */
+
+.mental-maps-menu {
+  position: fixed;
+  z-index: 1000;
+  background-color: rgba(0,0,0,0.9);
+  margin-top: 45px;
+  height: auto;
+  width: 0vw;
+  left: 20vw;
+  top: 38vh;
+  overflow-y: auto;
+  line-height: 1;
+  font-family: 'Raleway';
+  font-size: 18pt;
+  padding-bottom: 5px;
+  margin-left: 10px;
+  transition: 0.5s;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.admin-maps-menu {
+  position: fixed;
+  z-index: 1000;
+  background-color: rgba(0,0,0,0.9);
+  margin-top: 80px;
+  height: auto;
+  width: 0vw;
+  left: 20vw;
+  top: 46vh;
+  overflow-y: auto;
+  line-height: 1;
+  font-family: 'Raleway';
+  font-size: 18pt;
+  padding-bottom: 5px;
+  margin-left: 10px;
+  transition: 0.5s;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* The navigation links inside the overlay */
+.submenu-content a {
+ padding: 8px;
+ text-decoration: none;
+ outline: none;
+ font-size: 36px;
+ color: #ccc;
+ display: block; /* Display block instead of inline */
+ transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+/* When you mouse over the navigation links, change their color */
+.submenu-content a:hover {
+ color: #00aeff;
+ text-decoration: none;
+}
+
+#home-title {
+  font-size: 36pt;
+}
+#home-title::after {
+  content: "----------";
+  font-size: 24pt;
+  margin-top: -18px;
+  display: block;
+}
+#menu-list {
+  margin: 0px;
+  overflow: hidden;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 1200px) {
+  #title {
+    font-size: 45pt;
+  }
+  #aboutPane {
+    font-size: 12pt;
+    padding-right: 50px;
+  }
+  .closebtn {
+    left: 0;
+  }
+  .aboutclosebtn {
+    left: -5%;
+  }
+  .overlay-content {
+    text-align: left;
+  }
+  .overlay a {
+    font-size: 20pt;
+    padding-bottom: 0px;
+  }
+  .submenu-content a {
+    font-size: 20pt;
+    padding-bottom: 0px;
+  }
+  .mental-maps-menu {
+    top: 36vh;
+  }
+  .admin-maps-menu {
+    top: 44vh;
+  }
+}
+
+@media screen and (max-height: 550px) {
+ .overlay a {
+   font-size: 18pt;
+   padding-bottom: 0px;
+ }
+ #home-title {
+   font-size: 20pt;
+ }
+ #home-title::after {
+   content:'------';
+ }
+}
+
+@media screen and (max-height: 450px) {
+ #home-title {
+   margin-bottom: -10px;
+ }
+ .closebtn {
+   margin-top: -55px;
+ }
+}
