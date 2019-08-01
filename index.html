@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Early Islamic Empire Power Structure</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <script src="scripts/leaflet.js"></script>
+    <script src="scripts/leaflet.timeline.js"></script>
+
+    <link rel="stylesheet" href="css/main.css" />
+
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width"></meta>
+  </head>
+  <body>
+    <div id="info">
+      <h1>Major events: </h1>
+      <ul id="displayed-list"></ul>
+    </div>
+
+    <div id="map"></div>
+
+    <span id="menu" onclick="openNav()">&#9776;</span>
+
+    <div id="myNav" class="overlay">
+     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+     <div class="overlay-content">
+       <a href="https://islamicEmpireAtWork.github.io/islamicempire/" id="home-title" onmouseover="closeMenuDivs()">Home</a>
+       <a id="mental-maps-div-button" onmouseover="openMMDiv()">Authors' conceptions</a>
+       <a id="admin-maps-div-button" onmouseover="openAMDiv()">Administration</a>
+       <a href="https://islamicEmpireAtWork.github.io/mintsOfEmpire/" onmouseover="closeMenuDivs()">Mints</a>
+       <a href="https://islamicEmpireAtWork.github.io/islamicempire/about.html" onmouseover="closeMenuDivs()">About</a>
+     </div>
+
+    </div>
+
+    <div class="mental-maps-menu submenu-content">
+      <a href="https://islamicEmpireAtWork.github.io/islamicempire/fars_index.html">Fars</a>
+      <a href="https://islamicEmpireAtWork.github.io/islamicempire/sham_index.html">Sham</a>
+      <a href="https://islamicEmpireAtWork.github.io/islamicempire/jazira_index.html">Jazira & Mosul</a>
+      <a href="https://islamicEmpireAtWork.github.io/islamicempire/ifriqiya_index.html">Ifriqiya</a>
+      <a href="https://islamicEmpireAtWork.github.io/islamicempire/alyaman_index.html">Yemen</a>
+    </div>
+
+    <div class="admin-maps-menu submenu-content">
+      <a href="https://islamicEmpireAtWork.github.io/PowerLines/">Empire (beta)</a>
+      <a href="https://islamicEmpireAtWork.github.io/fars_networks/">Fars</a>
+      <a href="https://islamicEmpireAtWork.github.io/jazira_networks/">Jazira</a>
+    </div>
+
+    <script src="scripts/leaflet-svg-shape-markers.min.js"></script>
+    <script src="scripts/moment.min.js"></script>
+    <script src="scripts/leaflet.ajax.js"></script>
+    <script src="data/import_points_geojson.js"></script>
+    <script src="data/import_lines_geojson.js"></script>
+    <script src="scripts/main.js"></script>
+
+  </body>
+</html>

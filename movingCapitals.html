@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Early Islamic Empire Power Structure</title>
+    <script src="scripts/moment.min.js"></script>
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <script src="scripts/leaflet.js"></script>
+
+    <script src="scripts/leaflet.timeline.js"></script>
+    <script src="scripts/leaflet.ajax.js"></script>
+    <script src="data/import_points_geojson.js"></script>
+    <script src="data/import_lines_geojson.js"></script>
+
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width"></meta>
+
+    <style>
+      /*
+      * Everything fullscreen.
+      */
+      html, body, #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+      /*
+      * You could style the timeline however you like, but we just make it wider here.
+      */
+      .leaflet-left {
+        width: 100%;
+      }
+      #info{
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 20vw;
+        padding: 1em;
+      }
+      #map{
+        position: fixed;
+        top: 0;
+        left: 22vw;
+        bottom: 0;
+        right: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="info">
+      <h1>Power structure events: </h1>
+      <ul id="displayed-list"></ul>
+    </div>
+    <div id="map"></div>
+    <script>
+      
+      /*var points = new L.GeoJSON.AJAX("http://myjson.com/1foo5i");
+      */
+      
+      /*
+       * Create the map
+       */
+      var acwUrl = 'https://api.tiles.mapbox.com/v4/isawnyu.map-knmctlkh/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaXNhd255dSIsImEiOiJBWEh1dUZZIn0.SiiexWxHHESIegSmW8wedQ';
+      var acwAttrib = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
+      var acw = L.tileLayer(acwUrl, {
+        maxZoom: 18,
+        attribution: acwAttrib,
+        noWrap: true
+      });
+
+      var map = L.map('map', {
+        layers: [acw],
+        center: new L.LatLng(25,35),
+        zoom: 4,
+        maxBounds: [[90,-180], [-90, 180]]
+      });
+      
+      
+      var slider = L.timelineSliderControl({
+        enableKeyboardControls: true,
+        duration: 70000,
+        formatOutput: function(date){
+          return moment(date).format("YYYY");
+        }
+      });
+      map.addControl(slider);
+ 
+      function updateList(timeline){
+        var displayed = timeline.getLayers();
+        var list = document.getElementById('displayed-list');
+        list.innerHTML = "";
+        displayed.forEach(function(el){
+          var li = document.createElement('li');
+          if (el.feature.properties.sidebar) { 
+            li.innerHTML = el.feature.properties.sidebar;
+            list.appendChild(li)
+            };
+        });
+      }
+ 
+      function linePopUp (feature, layer) {
+          if (feature.properties && feature.properties.name) 
+              {layer.bindPopup(
+                  feature.properties.name
+                  + '<p>(' + feature.properties.start + ' to ' + feature.properties.end +')</p>'
+                  + '<p>' + feature.properties.note + '</p>'
+                  )
+              }
+          };
+
+
+      function pointPopUp (feature, layer) {
+          if (feature.properties && feature.properties.name) 
+              {layer.bindPopup(
+                  "<h1>" + feature.properties.name + '</h1>' 
+                  + '<p>' + feature.properties.capital_type + '</p>'
+                  + '<p>' + feature.properties.note + '</p>'
+                  )
+              }
+          };
+
+      var linestringTimeline = L.timeline(linestrings, {
+          onEachFeature: linePopUp, 
+          style: function(feature) {
+              return {
+                  "weight": feature.properties.marker_size * feature.properties.marker_size / 2, 
+                  "color": feature.properties.marker_colour,
+                  "opacity": 0.7}
+                  }
+              }
+          );
+      linestringTimeline.addTo(map);
+      
+      var pointTimeline = L.timeline(
+          points, 
+          {
+              onEachFeature: pointPopUp,
+              pointToLayer: function(feature, latlng) {
+                  return L.circleMarker (
+                      latlng, 
+                      {
+                          radius: feature.properties.marker_size * 1.5, 
+                          color: feature.properties.marker_colour,
+                          fillColor: feature.properties.marker_colour, 
+                          fillOpacity: 0.6
+                      }
+                  )
+              }
+          }
+      );
+      pointTimeline.addTo(map);
+
+      pointTimeline.on('change', function(e){
+        updateList(e.target);
+        });
+       updateList(pointTimeline);
+      
+      slider.addTimelines(linestringTimeline, pointTimeline);
+    </script>
+  </body>
+</html>
